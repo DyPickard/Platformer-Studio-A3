@@ -1,6 +1,7 @@
 using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [Header("Physics Materials")]
     [SerializeField] private PhysicsMaterial rough;
     [SerializeField] private PhysicsMaterial smooth;
+    [SerializeField] Slider speedSlider;
 
     private readonly int doubleJump = 2;
     private Rigidbody rb;
@@ -38,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         transform.rotation = Quaternion.Euler(0, freeLookCamera.transform.rotation.eulerAngles.y, 0);
+        maxSpeed = speedSlider.value;
     }
 
     private void FixedUpdate()
@@ -112,4 +115,11 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
     }
+
+    // slider component was setting one value instead of changing when using this method
+    // so I had to attach slider to player and update the value in Update method
+    //public void UpdatePlayerMaxspeed(float newSpeed)
+    //{
+    //    maxSpeed = newSpeed;
+    //}
 }
